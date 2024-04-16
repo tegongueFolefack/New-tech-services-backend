@@ -1,5 +1,6 @@
 package com.example.securingweb.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.securingweb.Models.Image;
 import com.example.securingweb.Models.Services;
+import com.example.securingweb.Repository.ImageRepository;
 import com.example.securingweb.Repository.ServicesRepository;
 
 @Service
@@ -15,7 +18,7 @@ public class ServicesService {
 	
 	@Autowired
     private ServicesRepository ServicesRepository;
- 
+	
 
 	public Optional<Services> getServicesById(Integer id) {
 		return ServicesRepository.findById(id);

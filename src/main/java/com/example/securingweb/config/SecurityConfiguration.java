@@ -41,8 +41,10 @@ public class SecurityConfiguration {
 	                        request
 	                                .requestMatchers(
 	                                		"/Commande/**",
+	                                		"/Marque/**",
 	                                		"/Commentaire/**",
 	                                		"/admin/register",
+	                                		"/Categorie/**",
 	                                		"/admin/**",
 	                                		"/api/v1/auth/**",
 	                                		"/client/**",
@@ -50,6 +52,8 @@ public class SecurityConfiguration {
 	                                		"/Services/**",
 	                                		"/Produit/**",
 	                                		"/Like/**",
+	                                		"/Image/**",
+	                                		"/Services/**",
 	                                		"/NoteProduit/**",
 	                                        "/v2/api-docs",
 	                                        "/v3/api-docs",
@@ -77,7 +81,7 @@ public class SecurityConfiguration {
 	                                .requestMatchers("/client/**").hasAnyRole("ADMIN")
 	                                .requestMatchers("/Blog/**").hasAnyRole("ADMIN")
 	                                .requestMatchers("/utilisateur/**").hasAnyRole("ADMIN")
-	                                .requestMatchers("/Categorie/**").hasAnyRole("ADMIN")
+	                                //.requestMatchers("/Categorie/**").hasAnyRole("ADMIN")
 	                                .requestMatchers("/Blog/{id}").hasAnyRole("CLIENT")
 	                                .requestMatchers("/Blog/").hasAnyRole("CLIENT")
 	                                .requestMatchers("/Commande/**").hasAnyRole("ADMIN")
@@ -87,20 +91,20 @@ public class SecurityConfiguration {
 	                                .requestMatchers("/formations/**").hasAnyRole("ADMIN")
 	                                .requestMatchers("/formations/{id}").hasAnyRole("CLIENT")
 	                                .requestMatchers("/formations/").hasAnyRole("CLIENT")
-	                                .requestMatchers("/Image/**").hasAnyRole("ADMIN")
-	                                .requestMatchers("/Image/{id}").hasAnyRole("CLIENT")
-	                                .requestMatchers("/Produit/").hasAnyRole("CLIENT")
-	                                .requestMatchers("/Produit/{id}").hasAnyRole("CLIENT")
-	                                .requestMatchers("/Produit/**").hasAnyRole("ADMIN")
+	                                //.requestMatchers("/Image/**").hasAnyRole("ADMIN")
+	                                //.requestMatchers("/Image/{id}").hasAnyRole("CLIENT")
+	                                //.requestMatchers("/Produit/").hasAnyRole("CLIENT")
+	                               // .requestMatchers("/Produit/{id}").hasAnyRole("CLIENT")
+	                                //.requestMatchers("/Produit/**").hasAnyRole("ADMIN")
 	                                .requestMatchers("/Realisations/").hasAnyRole("CLIENT")
 	                                .requestMatchers("/Realisations/{id}").hasAnyRole("CLIENT")
 	                                .requestMatchers("/Realisations/**").hasAnyRole("ADMIN")
 	                                .requestMatchers("/Reduction/").hasAnyRole("CLIENT")
 	                                .requestMatchers("/Reduction/{id}").hasAnyRole("CLIENT")
 	                                .requestMatchers("/Reduction/**").hasAnyRole("ADMIN")
-	                                .requestMatchers("/Services/").hasAnyRole("CLIENT")
-	                                .requestMatchers("/Services/{id}").hasAnyRole("CLIENT")
-	                                .requestMatchers("/Services/**").hasAnyRole("ADMIN")
+	                                //.requestMatchers("/Services/").hasAnyRole("CLIENT")
+	                               // .requestMatchers("/Services/{id}").hasAnyRole("CLIENT")
+	                                //.requestMatchers("/Services/**").hasAnyRole("ADMIN")
 	                                .requestMatchers("/Image/").hasAnyRole("CLIENT")
 	                                .requestMatchers("/Inscrits/add").hasAnyRole("CLIENT")
 	                                .requestMatchers("/Inscrits/**").hasAnyRole("ADMIN")

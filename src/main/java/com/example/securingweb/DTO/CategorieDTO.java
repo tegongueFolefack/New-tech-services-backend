@@ -20,6 +20,7 @@ import lombok.Data;
 @Data
 //@AllArgsConstructor
 public class CategorieDTO {
+	 private int id;
 	
 	private String intitule;
 	

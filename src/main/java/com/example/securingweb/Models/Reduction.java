@@ -29,8 +29,8 @@ public class Reduction {
 	private Date dateDebut;
 	private int duree;
 	
-	@OneToMany
-	private List<Produit> produit = new ArrayList<>();
+//	@OneToMany
+//	private List<Produit> produit = new ArrayList<>();
 
 	public ReductionDTO toReductionDTO() {
         ModelMapper modelMapper = new ModelMapper();

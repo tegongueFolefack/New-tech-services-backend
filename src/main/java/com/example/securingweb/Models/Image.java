@@ -1,14 +1,20 @@
 package com.example.securingweb.Models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 
 import com.example.securingweb.DTO.ImageDTO;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -22,8 +28,16 @@ public class Image {
 	private int id;
 	private String libelle;
 	
-	@ManyToOne
-	private Services service;
+	
+	@Lob
+    @Column(length = 16777215)
+	private byte[] imageData;
+	
+//	@ManyToOne
+//	private Services service;
+	
+	@OneToMany
+	private List<Produit> produits = new ArrayList<>();
 	
 	
 
@@ -41,10 +55,9 @@ public class Image {
 
 
 
-	public Image(String libelle, Services service) {
+	public Image(String libelle) {
 		super();
 		this.libelle = libelle;
-		this.service = service;
 	}
 
 

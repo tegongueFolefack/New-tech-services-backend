@@ -13,5 +13,5 @@ import com.example.securingweb.Models.Categorie;
 
 @Repository
 public interface CategorieRepository extends JpaRepository<Categorie, Integer> {
-	
+	 Categorie findByIntitule(String intitule);
 }

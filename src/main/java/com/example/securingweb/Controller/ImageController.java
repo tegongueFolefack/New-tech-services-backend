@@ -7,8 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,17 +16,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-
 import com.example.securingweb.DTO.ImageDTO;
-
 import com.example.securingweb.Models.Image;
-import com.example.securingweb.Models.User;
-import com.example.securingweb.Repository.UserRepository;
+import com.example.securingweb.Models.ParamsImage;
 import com.example.securingweb.Service.ImageService;
-import com.example.securingweb.Service.InscritsService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,18 +35,38 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/Image")
 @SecurityRequirements() 
-
+@CrossOrigin(origins = "http://localhost:3000")
 public class ImageController {
 	
 	@Autowired
-	private ImageService inscritsService;
+	private ImageService imageService;
 	
+	@GetMapping("/byLibelle/{libelle}")
+    public ResponseEntity<?> getImagesByLibelle(@PathVariable String libelle) {
+        List<Image> images = imageService.getImagesByLibelle(libelle);
+        return new ResponseEntity<>(images, HttpStatus.OK);
+    }
 	
+//	 @GetMapping("/byLibelle/{libelle}")
+//	    public ResponseEntity<?> getImageByLibelle(@PathVariable String libelle) {
+//	        Optional<Image> image = imageService.getImageByLibelle(libelle);
+//	        if (image.isPresent()) {
+//	            return ResponseEntity.ok(image.get());
+//	        } else {
+//	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Image not found with libelle: " + libelle);
+//	        }
+//	    }
+	
+//	 @PostMapping("/add-service")
+//	    public String addService(@RequestBody ParamsImage ParamsImage) {
+//	        return this.imageService.addService( ParamsImage);
+//	    }
+	 
 		@GetMapping("/{id}")
-		@PreAuthorize("hasRole('ADMIN') || hasRole('CLIENT')")
+		//@PreAuthorize("hasRole('ADMIN') || hasRole('CLIENT')")
 	    public ResponseEntity<ImageDTO> getimageById(@PathVariable Integer id) {
 	        try {
-	            Optional<Image> image = inscritsService.getImageById(id);
+	            Optional<Image> image = imageService.getImageById(id);
 	            if (image.isPresent()) {
 	            	ImageDTO imageDTO = image.get().toImageDTO();
 	                return ResponseEntity.ok(imageDTO);
@@ -62,11 +79,20 @@ public class ImageController {
 	    }
 		
 		 
+		 @GetMapping("/image/{id}")
+		    public ResponseEntity<String> getImageAsBase64(@PathVariable Integer id) {
+		        try {
+		            String imageDataBase64 = imageService.getImageAsBase64(id);
+		            return ResponseEntity.ok(imageDataBase64);
+		        } catch (Exception e) {
+		            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred");
+		        }
+		    }
 
 	    @DeleteMapping("delete/{id}")
 	    public ResponseEntity<Void> deleteImage(@PathVariable Integer id) {
 	        try {
-	        	inscritsService.deleteImage(id);
+	        	imageService.deleteImage(id);
 	            return ResponseEntity.noContent().build();
 	        } catch (Exception e) {
 	            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred");
@@ -74,10 +100,10 @@ public class ImageController {
 	    }
 
 	    @GetMapping("/")
-	    @PreAuthorize("hasRole('ADMIN') || hasRole('CLIENT')")
+	    //@PreAuthorize("hasRole('ADMIN') || hasRole('CLIENT')")
 	    public ResponseEntity<List<ImageDTO>> findAll() {
 	        try {
-	            Iterable<Image> images = inscritsService.getAllImage();
+	            Iterable<Image> images = imageService.getAllImage();
 	            List<ImageDTO> imageDTOs = new ArrayList<>();
 	            for (Image image : images) {
 	            	imageDTOs.add(image.toImageDTO());
@@ -92,27 +118,39 @@ public class ImageController {
 
 		
 	    @PostMapping("/add")
-	    public ResponseEntity<String> addImage(@RequestBody ImageDTO imageDTOs) {
-	    	Image image = imageDTOs.toImage();
-	    	Image savedimage = inscritsService.saveImage(image);
-	        
-	        // You can customize the confirmation message here
-	        String confirmationMessage = "Image with ID " + savedimage.getId() + " has been added successfully.";
-	        
-	        return ResponseEntity.status(HttpStatus.CREATED).body(confirmationMessage);
+	    public ResponseEntity<String> addImage(@RequestParam("file") MultipartFile file, @RequestParam("libelle") String libelle) {
+	        try {
+	            Image image = new Image();
+	            image.setLibelle(libelle);
+	            
+	            // Convertir les données binaires de l'image en tableau d'octets
+	            byte[] imageDataBytes = file.getBytes();
+	            image.setImageData(imageDataBytes);
+	            
+	            Image savedImage = imageService.saveImage(image);
+	            
+	            String confirmationMessage = "Image with ID " + savedImage.getId() + " has been added successfully.";
+	            
+	            return ResponseEntity.status(HttpStatus.CREATED).body(confirmationMessage);
+	        } catch (Exception e) {
+	            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred while adding the image");
+	        }
 	    }
+
+
+
 
 		
 		    @PutMapping("update/{id}")
 		    public ResponseEntity<ImageDTO> updateImage(@PathVariable Integer id, @RequestBody ImageDTO imageDto) {
 		        try {
-		            Optional<Image> imageOpt = inscritsService.getImageById(id);
+		            Optional<Image> imageOpt = imageService.getImageById(id);
 		            if (imageOpt.isPresent()) {
 		            	Image image = imageOpt.get();
 		                
 		            	image = imageDto.toImage();
 		                
-		            	image = inscritsService.updateImage(id, image);
+		            	image = imageService.updateImage(id, image);
 		                
 		            	ImageDTO imageResponse = image.toImageDTO();
 		                
@@ -135,8 +173,12 @@ public class ImageController {
 
 		    @ExceptionHandler(Exception.class)
 		    public ResponseEntity<String> handleException(Exception ex) {
-		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred"+ex.getMessage());
+		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred" + ex.getMessage());
 		    }
 
-
+		    
 }
+
+
+
+

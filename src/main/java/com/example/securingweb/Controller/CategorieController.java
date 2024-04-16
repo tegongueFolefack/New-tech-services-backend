@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.example.securingweb.DTO.CategorieDTO;
 import com.example.securingweb.Models.Categorie;
+import com.example.securingweb.Models.Image;
+import com.example.securingweb.Models.ParamsCategorie;
 import com.example.securingweb.Service.CategorieService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,11 +33,32 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 //@SecurityRequirements() 
 @RestController
 @RequestMapping("/Categorie")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CategorieController {
 	
 	@Autowired
 	private CategorieService CategorieService;
 	
+	
+	@GetMapping("/categorie/{categoryName}")
+    public ResponseEntity<List<Image>> getImagesByCategoryName(@PathVariable String categoryName) {
+        try {
+            List<Image> images = CategorieService.getImagesByCategoryName(categoryName);
+            if (images.isEmpty()) {
+                // Si aucune image correspondante n'est trouvée, retourner un statut NOT_FOUND
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(images);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la récupération des images : " + e.getMessage());
+        }
+    }
+	@PostMapping("/addprof")
+	public String addprofToSeminar( @RequestBody ParamsCategorie pams) {
+		 this.CategorieService.addProduit(pams);
+		return "Good";
+		
+	}
 	
 	 @PostMapping("/add")
 	   // @PreAuthorize("hasRole('ADMIN')")
@@ -52,7 +76,7 @@ public class CategorieController {
 	    }
 	
 	@GetMapping("/{id}")
-	@PreAuthorize("hasRole('ADMIN') || hasRole('CLIENT')")
+	//@PreAuthorize("hasRole('ADMIN') || hasRole('CLIENT')")
     public ResponseEntity<CategorieDTO> getCategorieById(@PathVariable Integer id) {
         try {
             Optional<Categorie> Categorie = CategorieService.getCategorieById(id);
@@ -68,7 +92,7 @@ public class CategorieController {
     }
 
     @DeleteMapping("delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteCategorie(@PathVariable Integer id) {
         try {
             CategorieService.deleteCategorie(id);
@@ -80,7 +104,7 @@ public class CategorieController {
     
    
     @GetMapping("/")
-    @PreAuthorize("hasRole('ADMIN') || hasRole('CLIENT')")
+   // @PreAuthorize("hasRole('ADMIN') || hasRole('CLIENT')")
     public ResponseEntity<List<CategorieDTO>> findAll() {
         try {
             Iterable<Categorie> Categories = CategorieService.getAllCategorie();
@@ -93,6 +117,7 @@ public class CategorieController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred");
         }
     }
+    
 
 	   
 

@@ -34,8 +34,8 @@ public class Services {
 	private String nom;
 	private String description;
 	
-	@OneToMany
-	private List<Image> images = new ArrayList<>();
+//	@OneToMany
+//	private List<Image> images = new ArrayList<>();
 
 	public Services() {
 		super();

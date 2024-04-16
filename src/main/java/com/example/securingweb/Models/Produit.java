@@ -12,6 +12,8 @@ import com.example.securingweb.Enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,34 +24,30 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper=false)
 @Entity
 @Table(name = "produit")
 @DiscriminatorValue("produit")
 public class Produit extends Services{
 	
-	public Produit(int id, String nom, String description, List<Image> images) {
-		super(id, nom, description, images);
-		// TODO Auto-generated constructor stub
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name ="id")
-	private int id;
+	
+	
 	
 	private int quantiteDisponible;
 	private Double prixUnitaire;
 	
-	@ManyToOne
-	private Reduction reduction;
-	
-	@ManyToOne
+//	@ManyToOne
+//	private Reduction reduction;
+//	
+	@ManyToOne(fetch = FetchType.EAGER )
 	private Categorie categorie;
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Image image;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Marque marque;
 	
 	@OneToMany
@@ -76,11 +74,22 @@ public class Produit extends Services{
 	}
 
 
-	public Produit(int quantiteDisponible, Double prixUnitaire, Reduction reduction) {
+	public Produit(int quantiteDisponible, Double prixUnitaire, Reduction reduction, Categorie categorie, Marque marque,
+			List<Like> like, List<Commentaire> commentaire, Collection<Panier> panier) {
 		super();
 		this.quantiteDisponible = quantiteDisponible;
 		this.prixUnitaire = prixUnitaire;
-		this.reduction = reduction;
+		this.categorie = categorie;
+		this.marque = marque;
+		this.like = like;
+		this.commentaire = commentaire;
+		this.panier = panier;
+	}
+
+
+	public Produit(int id, String nom, String description, List<Image> images) {
+		super(id, nom, description);
+		// TODO Auto-generated constructor stub
 	}
 
 
@@ -88,7 +97,47 @@ public class Produit extends Services{
 		super(nom, description);
 		// TODO Auto-generated constructor stub
 	}
+
+
 	
+
+
+	public Produit(int id, int quantiteDisponible, Double prixUnitaire, Reduction reduction, Categorie categorie,
+			Marque marque, List<Like> like, List<Commentaire> commentaire, Collection<Panier> panier) {
+		super();
+		this.quantiteDisponible = quantiteDisponible;
+		this.prixUnitaire = prixUnitaire;
+		this.categorie = categorie;
+		this.marque = marque;
+		this.like = like;
+		this.commentaire = commentaire;
+		this.panier = panier;
+	}
+
+
+	public Produit(String nom, String description,int quantiteDisponible, Double prixUnitaire) {
+		super(nom, description);
+		this.quantiteDisponible = quantiteDisponible;
+		this.prixUnitaire = prixUnitaire;
+	}
+
+
+	public Produit(int id, int quantiteDisponible, Double prixUnitaire, Categorie categorie, Image image, Marque marque,
+			List<Like> like, List<Commentaire> commentaire, Collection<Panier> panier) {
+		super();
+		this.quantiteDisponible = quantiteDisponible;
+		this.prixUnitaire = prixUnitaire;
+		this.categorie = categorie;
+		this.image = image;
+		this.marque = marque;
+		this.like = like;
+		this.commentaire = commentaire;
+		this.panier = panier;
+	}
+
+
+	
+
 	
 	
 

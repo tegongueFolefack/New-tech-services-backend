@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class ServicesDTO {
 
-	
+	private int id;
 	private String nom;
 	private String description;
 	

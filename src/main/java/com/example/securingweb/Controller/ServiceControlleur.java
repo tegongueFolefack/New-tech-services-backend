@@ -29,15 +29,17 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 //@SecurityRequirements() 
 @RestController
 @RequestMapping("/Services")
-@PreAuthorize("hasRole('ADMIN')")
+//@PreAuthorize("hasRole('ADMIN')")
 public class ServiceControlleur {
 	
 	
 			@Autowired
 			private ServicesService ServicesService;
 			
+			
+			
 			@GetMapping("/{id}")
-			@PreAuthorize("hasRole('ADMIN') || hasRole('CLIENT')")
+			//@PreAuthorize("hasRole('ADMIN') || hasRole('CLIENT')")
 		    public ResponseEntity<ServicesDTO> getServicesById(@PathVariable Integer id) {
 		        try {
 		            Optional<Services> Services = ServicesService.getServicesById(id);
@@ -64,7 +66,7 @@ public class ServiceControlleur {
 		    }
 
 		    @GetMapping("/")
-		    @PreAuthorize("hasRole('ADMIN') || hasRole('CLIENT')")
+		   // @PreAuthorize("hasRole('ADMIN') || hasRole('CLIENT')")
 		    public ResponseEntity<List<ServicesDTO>> findAll() {
 		        try {
 		            Iterable<Services> Servicess = ServicesService.getAllServices();
@@ -82,7 +84,7 @@ public class ServiceControlleur {
 
 			
 		    @PostMapping("/add")
-		    @PreAuthorize("hasRole('ADMIN')")
+		  //  @PreAuthorize("hasRole('ADMIN')")
 		    public ResponseEntity<String> addServices(@RequestBody ServicesDTO ServicesDto) {
 		    	Services Services = ServicesDto.toServices();
 		    	Services savedServices = ServicesService.saveServices(Services);
@@ -95,7 +97,7 @@ public class ServiceControlleur {
 
 			
 			    @PutMapping("update/{id}")
-			    @PreAuthorize("hasRole('ADMIN')")
+			  //  @PreAuthorize("hasRole('ADMIN')")
 			    public ResponseEntity<ServicesDTO> updateFonction(@PathVariable Integer id, @RequestBody ServicesDTO ServicesDto) {
 			        try {
 			            Optional<Services> ServicesOpt = ServicesService.getServicesById(id);
