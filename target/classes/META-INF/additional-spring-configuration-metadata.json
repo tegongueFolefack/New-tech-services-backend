@@ -15,8 +15,48 @@
     "description": "A description for 'application.security.jwt.refresh-token.expiration'"
   },
   {
-    "name": "app-jwt-expiration-milliseconds",
+    "name": "dohone.api.merchand.key",
     "type": "java.lang.String",
-    "description": "A description for 'app-jwt-expiration-milliseconds'"
+    "description": "A description for 'dohone.api.merchand.key'"
+  },
+  {
+    "name": "dohone.api.hashcode",
+    "type": "java.lang.String",
+    "description": "A description for 'dohone.api.hashcode'"
+  },
+  {
+    "name": "dohone.api.command.cotation",
+    "type": "java.lang.String",
+    "description": "A description for 'dohone.api.command.cotation'"
+  },
+  {
+    "name": "dohone.api.command.start",
+    "type": "java.lang.String",
+    "description": "A description for 'dohone.api.command.start'"
+  },
+  {
+    "name": "dohone.api.command.cfrmsms",
+    "type": "java.lang.String",
+    "description": "A description for 'dohone.api.command.cfrmsms'"
+  },
+  {
+    "name": "dohone.api.account.number",
+    "type": "java.lang.String",
+    "description": "A description for 'dohone.api.account.number'"
+  },
+  {
+    "name": "dohone.api.command.verify",
+    "type": "java.lang.String",
+    "description": "A description for 'dohone.api.command.verify'"
+  },
+  {
+    "name": "dohone.api.payin.base.url",
+    "type": "java.lang.String",
+    "description": "A description for 'dohone.api.payin.base.url'"
+  },
+  {
+    "name": "dohone.api.payout.base.url",
+    "type": "java.lang.String",
+    "description": "A description for 'dohone.api.payout.base.url'"
   }
 ]}

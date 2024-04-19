@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -36,7 +37,14 @@ public class ServiceControlleur {
 			@Autowired
 			private ServicesService ServicesService;
 			
-			
+//			 @GetMapping("/servicesByType")
+//			    public ResponseEntity<List<Object[]>> getServicesAndImagesByType(@RequestParam String type) {
+//			        List<Object[]> servicesAndImages = ServicesService.findServicesAndImagesByType(type);
+//			        if (servicesAndImages.isEmpty()) {
+//			            return ResponseEntity.noContent().build();
+//			        }
+//			        return ResponseEntity.ok(servicesAndImages);
+//			    }
 			
 			@GetMapping("/{id}")
 			//@PreAuthorize("hasRole('ADMIN') || hasRole('CLIENT')")

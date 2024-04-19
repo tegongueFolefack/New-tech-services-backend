@@ -19,6 +19,9 @@ public class ServicesService {
 	@Autowired
     private ServicesRepository ServicesRepository;
 	
+//	public List<Object[]> findServicesAndImagesByType(String type) {
+//        return ServicesRepository.findServicesAndImagesByType(type);
+//    }
 
 	public Optional<Services> getServicesById(Integer id) {
 		return ServicesRepository.findById(id);
@@ -62,6 +65,9 @@ public class ServicesService {
  public Services saveServices(Services Services) {
 		return ServicesRepository.save(Services);
 	}
+
+
+
 
 
 }

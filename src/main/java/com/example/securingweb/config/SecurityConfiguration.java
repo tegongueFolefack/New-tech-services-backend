@@ -40,6 +40,7 @@ public class SecurityConfiguration {
 	                .authorizeHttpRequests(request ->
 	                        request
 	                                .requestMatchers(
+	                                		"/contact/**",
 	                                		"/Commande/**",
 	                                		"/Marque/**",
 	                                		"/Commentaire/**",
