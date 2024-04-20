@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : sam. 20 avr. 2024 à 02:18
+-- Généré le : sam. 20 avr. 2024 à 02:51
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -693,17 +693,6 @@ CREATE TABLE `_service_commentaire` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `_service_images`
---
-
-CREATE TABLE `_service_images` (
-  `services_id` int(11) NOT NULL,
-  `images_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `_service_like`
 --
 
@@ -979,13 +968,6 @@ ALTER TABLE `_service`
 ALTER TABLE `_service_commentaire`
   ADD UNIQUE KEY `UK_ncrbpxlh3e5khucjh4qvbflc2` (`commentaire_id`),
   ADD KEY `FK3qx9ch1chxbquifiyl2ljkuyq` (`produit_id`);
-
---
--- Index pour la table `_service_images`
---
-ALTER TABLE `_service_images`
-  ADD UNIQUE KEY `UK_q31it12liooo8mlupbjicipw0` (`images_id`),
-  ADD KEY `FK548o8rufbnwjh721xhjlystxp` (`services_id`);
 
 --
 -- Index pour la table `_service_like`
@@ -1270,13 +1252,6 @@ ALTER TABLE `_service`
 ALTER TABLE `_service_commentaire`
   ADD CONSTRAINT `FK3qx9ch1chxbquifiyl2ljkuyq` FOREIGN KEY (`produit_id`) REFERENCES `_service` (`id`),
   ADD CONSTRAINT `FKn0uy0dvqdhokd3a2e3itexpa` FOREIGN KEY (`commentaire_id`) REFERENCES `commentaire` (`id`);
-
---
--- Contraintes pour la table `_service_images`
---
-ALTER TABLE `_service_images`
-  ADD CONSTRAINT `FK548o8rufbnwjh721xhjlystxp` FOREIGN KEY (`services_id`) REFERENCES `_service` (`id`),
-  ADD CONSTRAINT `FK691htgwto7yi19v7xbjgc0t1q` FOREIGN KEY (`images_id`) REFERENCES `image` (`id`);
 
 --
 -- Contraintes pour la table `_service_like`
